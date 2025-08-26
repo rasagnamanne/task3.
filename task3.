@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Quiz</title>
+</head>
+<body>
+  <h1>Mini Quiz</h1>
+  <div id="quiz">
+    <p id="question"></p>
+    <div id="options"></div>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
+  <p id="score"></p>
+
+  <script>
+    const questions = [
+      {
+        question: "What is 2 + 2?",
+        options: ["3", "4"],
+        answer: "4"
+      },
+      {
+        question: "Which runs in browser?",
+        options: ["Java", "JavaScript"],
+        answer: "JavaScript"
+      }
+    ];
+
+    let current = 0, score = 0;
+
+    function loadQuestion() {
+      const q = questions[current];
+      document.getElementById("question").innerText = q.question;
+
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (opt === q.answer) score++;
+          document.querySelectorAll("#options button").forEach(b => b.disabled = true);
+        };
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < questions.length) {
+        loadQuestion();
+      } else {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("score").innerText = Your Score: ${score}/${questions.length};
+      }
+    }
+
+    loadQuestion();
+  </script>
+</body>
+</html>
